@@ -1,7 +1,7 @@
 {
     "name": "ArrowJS",
     "version": "0.0.0",
-    "description": "A small library that implements Arrows for asynchronous (and synchronous) functions.",
+    "description": "A small library that implements Arrows for asynchronous functions.",
     "main": "./src/main.js",
     "directories": {
         "lib": "src"

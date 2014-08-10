@@ -19,37 +19,34 @@
     }
 }((typeof window === 'object' && window) || this, function() {
     'use strict';
-    var _Arrow = function (f) {
+    var Arrow = function (f) {
         this.f = f;
     };
 
     var arr = function (f) {
-        return new _Arrow(function (x) {
+        return new Arrow(function () {
+            var args = Array.prototype.slice.call(arguments, 0);
             return new Promise(function (resolve, reject) {
-                if (f.length === 1) {
-                    resolve(f(x));
-                } else {
-                    f(x, resolve);
-                }
+                console.log(args);
+                args.push(resolve);
+                f.apply(null, args);
             });
         });
     };
 
     var first = function (sf) {
-        return new _Arrow(function (x, z) {
-            var y = sf.f(x);
-            return [y, z];
+        return new Arrow(function (x) {
+            return sf.f(x[0]).then(function (_x) {
+                return [_x, x[1]];
+            });
         });
     };
 
     var next = function (sff, sfg) {
-        return new _Arrow(function (x) {
-            var y = sff.f(x);
-            var z = y.then(function (_y) {
+        return new Arrow(function (x) {
+            return sff.f(x).then(function (_y) {
                 return sfg.f(_y);
             });
-
-            return z;
         });
     };
 
@@ -62,8 +59,37 @@
     };
 
     /** Extra Functions **/
+
+    /**
+     * @function second
+     * @param f {Arrow}
+     * @return {Arrow}
+     */
+    var second = function (f) {
+        var swapA = arr(function (pair, cb) {
+            cb([pair[1], pair[0]]);
+        });
+        return next(next(swapA, first(f)), swapA);
+    };
+
+    var parallel = function (f, g) {
+        return next(first(f), second(g));
+    };
+
+    var both = function (f, g) {
+        return next(arr(function (b, cb) {
+            cb([b, b]);
+        }), parallel(f, g));
+    };
+
+    /**
+     * Delay the computation pipeline by t milliseconds
+     * @function delay
+     * @param t {Number}
+     * @returns {Arrow}
+     */
     var delay = function (t) {
-        return new _Arrow(function (x) {
+        return new Arrow(function (x) {
             var y = new Promise(function (resolve, reject) {
                 setTimeout(function () {
                     resolve(x);
@@ -73,14 +99,15 @@
         });
     };
 
-    var Arrow = {
-        arr: arr,
-        first: first,
-        next: next,
-        run: run,
+    Arrow.arr = arr;
+    Arrow.first = first;
+    Arrow.next = next;
+    Arrow.run = run;
 
-        delay: delay
-    };
+    Arrow.delay = delay;
+    Arrow.second = second;
+    Arrow.parallel = parallel;
+    Arrow.both = both;
 
     return Arrow;
 }));
