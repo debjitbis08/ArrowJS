@@ -1,0 +1,33 @@
+{
+    "name": "ArrowJS",
+    "version": "0.0.0",
+    "description": "A small library that implements Arrows for asynchronous (and synchronous) functions.",
+    "main": "./src/main.js",
+    "directories": {
+        "lib": "src"
+    },
+
+    "scripts": {
+        "test": "grunt test"
+    },
+
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/debjitbis08/ArrowJS"
+    },
+
+    "keywords": [
+        "Arrows",
+        "Functional Programming"
+    ],
+
+    "author": {
+        "name": "Debjit Biswas",
+        "email": "debjit@fastmail.fm",
+        "url": "http://www.debjitbiswas.com"
+    },
+
+    "license": "MIT",
+
+    "devDependencies": {}
+}
