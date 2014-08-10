@@ -61,11 +61,25 @@
         return v;
     };
 
+    /** Extra Functions **/
+    var delay = function (t) {
+        return new _Arrow(function (x) {
+            var y = new Promise(function (resolve, reject) {
+                setTimeout(function () {
+                    resolve(x);
+                }, t);
+            });
+            return y;
+        });
+    };
+
     var Arrow = {
         arr: arr,
         first: first,
         next: next,
-        run: run
+        run: run,
+
+        delay: delay
     };
 
     return Arrow;
