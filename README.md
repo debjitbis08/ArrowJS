@@ -3,10 +3,13 @@ ArrowJS
 
 **HIGHLY EXPERIMENTAL**
 
-A small library that implements [Arrows](https://en.wikipedia.org/wiki/Arrow_%28computer_science%29) for asynchronous functions. You can also implement other types of Arrows by
-overriding just a few functions.
+A small library that implements [Arrows](https://en.wikipedia.org/wiki/Arrow_%28computer_science%29). You can also
+implement other types of Arrows by overriding just a few functions.
 
-More resources about Arrows  can be found here: http://www.haskell.org/haskellwiki/Arrow#External_links
+The library provides Arrows for asynchronous function, AsyncA. Other types of Arrows should be implemented based on
+the AsyncA definition.
+
+More resources about Arrows can be found here: http://www.haskell.org/haskellwiki/Arrow#External_links
 
 Examples
 --------
@@ -23,7 +26,7 @@ var addOneA = Arrows.AsyncA().arr(function (n, cb) {
 
 AsyncA.prototype.add = function (g) {
 	var f = this;
-    return f.both(g).next(Arrows.AsyncA().arr(function(v, cb) {
+    return f.both(g).next(this.arr(function(v, cb) {
         cb(v[0] + v[1]);
     }));
 };
