@@ -15,7 +15,7 @@
         define(factory);
 // Browser
     } else {
-        root.Arrow = factory();
+        root.Arrows = factory();
     }
 }((typeof window === 'object' && window) || this, function() {
     'use strict';
@@ -55,7 +55,7 @@
          */
         second: function () {
             var f = this;
-            var swapA = Arrow(function (pair, cb) {
+            var swapA = this.arr(function (pair, cb) {
                 cb([pair[1], pair[0]]);
             });
             return swapA.next(f.first()).next(swapA);
@@ -68,13 +68,19 @@
 
         both: function (g) {
             var f = this;
-            return Arrow(function (b, cb) {
+            return this.arr(function (b, cb) {
                 cb([b, b]);
             }).next(f.parallel(g));
         }
     };
 
     var AsyncA = function (f) {
+        if (f instanceof AsyncA) {
+            return f;
+        }
+        if (!(this instanceof AsyncA)) {
+            return new AsyncA(f);
+        }
         Arrow.call(this, f);
     };
 

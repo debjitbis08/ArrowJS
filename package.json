@@ -1,33 +1,31 @@
 {
-    "name": "ArrowJS",
-    "version": "0.0.0",
-    "description": "A small library that implements Arrows for asynchronous functions.",
-    "main": "./src/main.js",
-    "directories": {
-        "lib": "src"
-    },
-
-    "scripts": {
-        "test": "grunt test"
-    },
-
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/debjitbis08/ArrowJS"
-    },
-
-    "keywords": [
-        "Arrows",
-        "Functional Programming"
-    ],
-
-    "author": {
-        "name": "Debjit Biswas",
-        "email": "debjit@fastmail.fm",
-        "url": "http://www.debjitbiswas.com"
-    },
-
-    "license": "MIT",
-
-    "devDependencies": {}
+  "name": "ArrowJS",
+  "version": "0.0.0",
+  "description": "A small library that implements Arrows for asynchronous functions.",
+  "main": "./src/main.js",
+  "directories": {
+    "lib": "src"
+  },
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/debjitbis08/ArrowJS"
+  },
+  "keywords": [
+    "Arrows",
+    "Functional Programming"
+  ],
+  "author": {
+    "name": "Debjit Biswas",
+    "email": "debjit@fastmail.fm",
+    "url": "http://www.debjitbiswas.com"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "gulp": "~3.8.7",
+    "chai": "~1.9.1",
+    "mocha": "~1.21.4"
+  }
 }
