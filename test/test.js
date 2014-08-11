@@ -12,6 +12,25 @@
     var Arrows = global.Arrows || require('../src/main');
 
     describe('ArrowJS', function () {
+
+        describe('Arrow', function () {
+
+            it('should have the function run', function () {
+                expect(Arrows.Arrow.prototype.run).to.be.a('function');
+            });
+
+            it('should have the function arr', function () {
+                expect(Arrows.Arrow.prototype.run).to.be.a('function');
+            });
+
+            describe('arr', function () {
+                it('should throw a error', function () {
+                    var A = Arrows.Arrow();
+                    expect(A.arr).to.throw(Error);
+                });
+            });
+        });
+
         it('should work', function (done) {
             var doubleA = Arrows.AsyncA().arr(function (n, cb) {
                 setTimeout(function () {

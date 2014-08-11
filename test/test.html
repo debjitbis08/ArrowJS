@@ -14,13 +14,16 @@
 <script>var expect = chai.expect</script>
 
 <!-- include source files here... -->
-<script src="../src/main.js"></script>
+<script src="../dist/arrow.js"></script>
 
 <!-- include spec files here... -->
 <script src="test.js"></script>
 
 <script>
-    if (navigator.userAgent.indexOf('PhantomJS') < 0) {
+    if (typeof mochaPhantomJS !== 'undefined') {
+        mochaPhantomJS.run();
+    }
+    else {
         mocha.run();
     }
 </script>
