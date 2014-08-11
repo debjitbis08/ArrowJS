@@ -27,38 +27,19 @@
         if (!(this instanceof Arrow)) {
             return new Arrow(f);
         }
-        this.f = function () {
-            var args = Array.prototype.slice.call(arguments, 0);
-            return new Promise(function (resolve, reject) {
-                args.push(resolve);
-                f.apply(null, args);
-            });
-        };
+        this.f = f;
     };
 
     Arrow.prototype = {
-        first: function () {
-            var f = this;
-            var _A = Arrow();
-            _A.f = function (x) {
-                return f.f(x[0]).then(function (_x) {
-                    return [_x, x[1]];
-                });
-            };
-            return _A;
+        _notImplemented: function () {
+            throw new Error('Arrow is a abstract class, do not use it directly. ' +
+                'Please use one of it\'s subclasses or create your own by ' +
+                'overriding arr, next and first functions.'
+            );
         },
-
-
-        next: function (g) {
-            var f = this;
-            var _A = Arrow();
-            _A.f = function (x) {
-                return f.f(x).then(function (_y) {
-                    return g.f(_y);
-                });
-            };
-            return _A;
-        },
+        arr: function () { this._notImplemented(); },
+        next: function () { this._notImplemented(); },
+        first: function () { this._notImplemented(); },
 
         run: function () {
             var _sf = this;
@@ -93,6 +74,43 @@
         }
     };
 
+    var AsyncA = function (f) {
+        Arrow.call(this, f);
+    };
+
+    AsyncA.prototype = Object.create(Arrow.prototype);
+
+    AsyncA.prototype.arr = function (f) {
+        return AsyncA(function () {
+            var args = Array.prototype.slice.call(arguments, 0);
+            return new Promise(function (resolve, reject) {
+                args.push(resolve);
+                f.apply(null, args);
+            });
+        });
+    };
+
+    AsyncA.prototype.first = function () {
+        var f = this;
+        var _A = AsyncA();
+        _A.f = function (x) {
+            return f.f(x[0]).then(function (_x) {
+                return [_x, x[1]];
+            });
+        };
+        return _A;
+    };
+
+    AsyncA.prototype.next = function (g) {
+        var f = this;
+        var _A = AsyncA();
+        _A.f = function (x) {
+            return f.f(x).then(function (_y) {
+                return g.f(_y);
+            });
+        };
+        return _A;
+    };
 
     /*
     var delay = function (t) {
@@ -107,5 +125,10 @@
     };
     */
 
-    return Arrow;
+    var Arrows = {
+        Arrow: Arrow,
+        AsyncA: AsyncA
+    };
+
+    return Arrows;
 }));

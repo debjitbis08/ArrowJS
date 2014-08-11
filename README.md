@@ -12,18 +12,18 @@ Examples
 --------
 
 ```javascript
-var doubleA = Arrow(function (n, cb) {
+var doubleA = Arrows.AsyncA().arr(function (n, cb) {
     setTimeout(function () {
        cb(2 * n);
     }, 0);
 });
-var addOneA = Arrow(function (n, cb) {
+var addOneA = Arrows.AsyncA().arr(function (n, cb) {
     cb(n + 1);
 });
 
-Arrow.prototype.add = function (g) {
+AsyncA.prototype.add = function (g) {
 	var f = this;
-    return f.both(g).next(Arrow(function(v, cb) {
+    return f.both(g).next(Arrows.AsyncA().arr(function(v, cb) {
         cb(v[0] + v[1]);
     }));
 };
