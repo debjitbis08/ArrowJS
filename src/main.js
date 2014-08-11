@@ -19,75 +19,82 @@
     }
 }((typeof window === 'object' && window) || this, function() {
     'use strict';
-    var Arrow = function (f) {
-        this.f = f;
-    };
 
-    var arr = function (f) {
-        return new Arrow(function () {
+    var Arrow = function (f) {
+        if (f instanceof Arrow) {
+            return f;
+        }
+        if (!(this instanceof Arrow)) {
+            return new Arrow(f);
+        }
+        this.f = function () {
             var args = Array.prototype.slice.call(arguments, 0);
             return new Promise(function (resolve, reject) {
-                console.log(args);
                 args.push(resolve);
                 f.apply(null, args);
             });
-        });
+        };
     };
 
-    var first = function (sf) {
-        return new Arrow(function (x) {
-            return sf.f(x[0]).then(function (_x) {
-                return [_x, x[1]];
+    Arrow.prototype = {
+        first: function () {
+            var f = this;
+            var _A = Arrow();
+            _A.f = function (x) {
+                return f.f(x[0]).then(function (_x) {
+                    return [_x, x[1]];
+                });
+            };
+            return _A;
+        },
+
+
+        next: function (g) {
+            var f = this;
+            var _A = Arrow();
+            _A.f = function (x) {
+                return f.f(x).then(function (_y) {
+                    return g.f(_y);
+                });
+            };
+            return _A;
+        },
+
+        run: function () {
+            var _sf = this;
+            var args = Array.prototype.slice.call(arguments, 0);
+            return _sf.f.apply(_sf, args);
+        },
+
+        /** Extra Functions **/
+
+        /**
+         * @function second
+         * @return {Arrow}
+         */
+        second: function () {
+            var f = this;
+            var swapA = Arrow(function (pair, cb) {
+                cb([pair[1], pair[0]]);
             });
-        });
+            return swapA.next(f.first()).next(swapA);
+        },
+
+        parallel: function (g) {
+            var f = this;
+            return f.first().next(g.second());
+        },
+
+        both: function (g) {
+            var f = this;
+            return Arrow(function (b, cb) {
+                cb([b, b]);
+            }).next(f.parallel(g));
+        }
     };
 
-    var next = function (sff, sfg) {
-        return new Arrow(function (x) {
-            return sff.f(x).then(function (_y) {
-                return sfg.f(_y);
-            });
-        });
-    };
 
-    var run = function (sf) {
-        var _sf = arguments[0];
-        var args = Array.prototype.slice.call(arguments, 1);
-        var v = _sf.f.apply(_sf, args);
-
-        return v;
-    };
-
-    /** Extra Functions **/
-
-    /**
-     * @function second
-     * @param f {Arrow}
-     * @return {Arrow}
-     */
-    var second = function (f) {
-        var swapA = arr(function (pair, cb) {
-            cb([pair[1], pair[0]]);
-        });
-        return next(next(swapA, first(f)), swapA);
-    };
-
-    var parallel = function (f, g) {
-        return next(first(f), second(g));
-    };
-
-    var both = function (f, g) {
-        return next(arr(function (b, cb) {
-            cb([b, b]);
-        }), parallel(f, g));
-    };
-
-    /**
-     * Delay the computation pipeline by t milliseconds
-     * @function delay
-     * @param t {Number}
-     * @returns {Arrow}
-     */
+    /*
     var delay = function (t) {
         return new Arrow(function (x) {
             var y = new Promise(function (resolve, reject) {
@@ -98,16 +105,7 @@
             return y;
         });
     };
-
-    Arrow.arr = arr;
-    Arrow.first = first;
-    Arrow.next = next;
-    Arrow.run = run;
-
-    Arrow.delay = delay;
-    Arrow.second = second;
-    Arrow.parallel = parallel;
-    Arrow.both = both;
+    */
 
     return Arrow;
 }));
