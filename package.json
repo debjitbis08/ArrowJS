@@ -3,11 +3,14 @@
   "version": "0.0.0",
   "description": "A small library that implements Arrows for asynchronous functions.",
   "main": "./src/main.js",
+  "engines" : {
+      "node" : ">=0.11.13"
+  },
   "directories": {
     "lib": "src"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "gulp test"
   },
   "repository": {
     "type": "git",
@@ -26,6 +29,12 @@
   "devDependencies": {
     "gulp": "~3.8.7",
     "chai": "~1.9.1",
-    "mocha": "~1.21.4"
+    "mocha": "~1.21.4",
+    "browserify": "~5.9.3",
+    "vinyl-source-stream": "~0.1.1",
+    "jshint-stylish": "~0.4.0",
+    "gulp-jshint": "~1.8.4",
+    "phantomjs": "~1.9.7-15",
+    "mocha-phantomjs": "~3.5.0"
   }
 }
