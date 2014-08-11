@@ -3,8 +3,10 @@ ArrowJS
 
 **HIGHLY EXPERIMENTAL**
 
-A small library that implements Arrows for asynchronous functions. You can also implement other types of Arrows by
+A small library that implements [Arrows](https://en.wikipedia.org/wiki/Arrow_%28computer_science%29) for asynchronous functions. You can also implement other types of Arrows by
 overriding just a few functions.
+
+More resources about Arrows  can be found here: http://www.haskell.org/haskellwiki/Arrow#External_links
 
 Examples
 --------
