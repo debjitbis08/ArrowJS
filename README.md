@@ -19,12 +19,13 @@ var addOneA = Arrow(function (n, cb) {
     cb(n + 1);
 });
 
-var addA = function (f, g) {
+Arrow.prototype.add = function (g) {
+	var f = this;
     return f.both(g).next(Arrow(function(v, cb) {
         cb(v[0] + v[1]);
     }));
 };
 
 doubleA.next(addOneA).run(2).then(function (v) {console.log(v)}); //Logs 5
-addA(doubleA, addOneA).run(2).then(function (v) {console.log(v)}); //Logs 7
+doubleA.add(addOneA).run(2).then(function (v) {console.log(v)}); //Logs 7
 ```
