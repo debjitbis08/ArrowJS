@@ -1,5 +1,7 @@
 import curry from 'lodash.curry'
 
+/* eslint-disable standard/no-callback-literal */
+
 function _notImplemented () {
   throw new Error(
     `Arrow is a abstract class, do not use it directly.

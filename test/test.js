@@ -11,7 +11,6 @@ test('Basic test (temporary)', function (t) {
     setTimeout(() => cb(sqr(v)), 100)
   }
 
-
   A.CPS.arr(asyncSqr).next(A.Fn.arr(addOne)).run(2)(v => {
     t.equal(v, 5)
   })
