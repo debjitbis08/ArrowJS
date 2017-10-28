@@ -1,22 +1,6 @@
-'use strict';
+import Arrow from './arrow'
+import Fn from './fn'
+import CPS from './cps'
 
-var Arrow = require('./arrow');
-var AsyncA = require('./asyncA');
+export default { Arrow, Fn, CPS }
 
-/*
-var delay = function (t) {
-    return new Arrow(function (x) {
-        var y = new Promise(function (resolve, reject) {
-            setTimeout(function () {
-                resolve(x);
-            }, t);
-        });
-        return y;
-    });
-};
-*/
-
-module.exports = {
-    Arrow: Arrow,
-    AsyncA: AsyncA
-};

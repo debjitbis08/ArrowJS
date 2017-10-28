@@ -3,14 +3,15 @@
   "version": "0.0.0",
   "description": "A small library that implements Arrows for asynchronous functions.",
   "main": "./src/main.js",
-  "engines" : {
-      "node" : ">=0.11.13"
+  "engines": {
+    "node": ">=0.11.13"
   },
   "directories": {
     "lib": "src"
   },
   "scripts": {
-    "test": "gulp test"
+    "test": "browserify test/test.js -t [ babelify ] | node",
+    "build": "browserify src/main.js -o dist/arrow.js -t [ babelify ]"
   },
   "repository": {
     "type": "git",
@@ -27,14 +28,20 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "gulp": "~3.8.7",
-    "chai": "~1.9.1",
-    "mocha": "~1.21.4",
+    "babel-core": "^6.26.0",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-preset-env": "^1.6.1",
+    "babelify": "^8.0.0",
     "browserify": "~5.9.3",
-    "vinyl-source-stream": "~0.1.1",
-    "jshint-stylish": "~0.4.0",
-    "gulp-jshint": "~1.8.4",
-    "phantomjs": "~1.9.7-15",
-    "mocha-phantomjs": "~3.5.0"
+    "eslint": "^4.10.0",
+    "eslint-config-standard": "^10.2.1",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-node": "^5.2.1",
+    "eslint-plugin-promise": "^3.6.0",
+    "eslint-plugin-standard": "^3.0.1"
+  },
+  "dependencies": {
+    "lodash.curry": "^4.1.1",
+    "lodash.flow": "^3.5.0"
   }
 }
