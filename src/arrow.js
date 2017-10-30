@@ -10,12 +10,16 @@ function _notImplemented () {
   )
 }
 
+function swap ([x, y]) {
+  return [y, x]
+}
+
 class Arrow {
   constructor (f) {
     this.f = curry(f)
   }
 
-  arr () { _notImplemented() }
+  static arr () { _notImplemented() }
   next () { _notImplemented() }
   first () { _notImplemented() }
 
@@ -32,11 +36,10 @@ class Arrow {
      * @return {Arrow}
      */
   second () {
-    const a = this
-    const swapA = a.arr(function (pair, cb) {
-      cb([pair[1], pair[0]])
-    })
-    return swapA.next(a.first()).next(swapA)
+    const f = this
+    const swapA = f.constructor.arr(swap)
+
+    return swapA.next(f.first()).next(swapA)
   }
 
   parallel (g) {
@@ -46,9 +49,7 @@ class Arrow {
 
   both (g) {
     const f = this
-    return f.arr(function (b, cb) {
-      cb([b, b])
-    }).next(f.parallel(g))
+    return f.constructor.arr(x => [x, x]).next(f.parallel(g))
   }
 }
 

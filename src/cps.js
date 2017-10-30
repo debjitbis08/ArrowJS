@@ -1,24 +1,17 @@
 import Arrow from './arrow'
+import flow from 'lodash.flow'
 
 class CPS extends Arrow {
   static arr (f) {
     return new CPS((v, cb) => {
-      f(v, u => {
-        cb(u)
-      })
+      f(v, cb)
     })
   }
 
   next (gA) {
     const f = this.f
     const g = gA.f
-    return new CPS((v, cb) => {
-      f(v, u => {
-        const w = g(u)
-        cb(w)
-        return w
-      })
-    })
+    return new CPS((v, cb) => f(v, flow(cb, g)))
   }
 
   first () {

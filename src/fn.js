@@ -18,4 +18,6 @@ class Fn extends Arrow {
   }
 }
 
+Fn.id = new Fn(x => x)
+
 export default Fn

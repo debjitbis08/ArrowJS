@@ -10,7 +10,7 @@
     "lib": "src"
   },
   "scripts": {
-    "test": "eslint . && browserify test/test.js -t [ babelify ] | node",
+    "test": "eslint . && browserify src/*.test.js -t [ babelify ] | node",
     "build": "browserify src/main.js -o dist/arrow.js -t [ babelify ]"
   },
   "repository": {
@@ -38,7 +38,9 @@
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-node": "^5.2.1",
     "eslint-plugin-promise": "^3.6.0",
-    "eslint-plugin-standard": "^3.0.1"
+    "eslint-plugin-standard": "^3.0.1",
+    "jsverify": "^0.8.3",
+    "tape": "^4.8.0"
   },
   "dependencies": {
     "lodash.curry": "^4.1.1",
